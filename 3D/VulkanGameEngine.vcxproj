@@ -183,6 +183,7 @@
     <ClInclude Include="include\ve\ve_pipeline.hpp" />
     <ClInclude Include="include\ve\ve_renderer.hpp" />
     <ClInclude Include="include\ve\ve_swap_chain.hpp" />
+    <ClInclude Include="include\ve\ve_utils.hpp" />
     <ClInclude Include="include\ve\ve_window.hpp" />
   </ItemGroup>
   <ItemGroup>

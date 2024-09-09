@@ -83,4 +83,4 @@ namespace ve {
 			obj.model->draw(commandBuffer);
 		}
 	}
-}
+} // namespace ve

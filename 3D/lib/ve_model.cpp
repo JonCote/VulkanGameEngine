@@ -1,8 +1,28 @@
 #include "ve/ve_model.hpp"
+#include "ve/ve_utils.hpp"
+
+// libs
+#define TINYOBJLOADER_IMPLEMENTATION
+#include <tinyobjloader/tiny_obj_loader.h>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/hash.hpp>
 
 // std
 #include <cassert>
 #include <cstring>
+#include <unordered_map>
+
+namespace std {
+	template<>
+	struct hash<ve::VeModel::Vertex> {
+		size_t operator()(const ve::VeModel::Vertex& vertex) const {
+			size_t seed = 0;
+			ve::hashCombine(seed, vertex.position, vertex.color, vertex.normal, vertex.uv);
+			return seed;
+		}
+	};
+} // namespace std
+
 
 namespace ve {
 
@@ -19,6 +39,13 @@ namespace ve {
 			vkDestroyBuffer(veDevice.device(), indexBuffer, nullptr);
 			vkFreeMemory(veDevice.device(), indexBufferMemory, nullptr);
 		}
+	}
+
+	std::unique_ptr<VeModel> VeModel::createModelFromFile(VeDevice& device, const std::string& filePath) {
+		Builder builder{};
+		builder.loadModel(filePath);
+
+		return std::make_unique<VeModel>(device, builder);
 	}
 
 	void VeModel::bind(VkCommandBuffer commandBuffer) {
@@ -128,4 +155,70 @@ namespace ve {
 
 		return attributeDescriptions;
 	}
-}
+
+	void VeModel::Builder::loadModel(const std::string& filePath) {
+		tinyobj::attrib_t attrib;
+		std::vector<tinyobj::shape_t> shapes;
+		std::vector<tinyobj::material_t> materials;
+		std::string warn;
+		std::string err;
+
+		if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, filePath.c_str())) {
+			throw std::runtime_error(warn + err);
+		}
+
+		vertices.clear();
+		indices.clear();
+
+		std::unordered_map<Vertex, uint32_t> uniqueVertices{};
+
+		for (const auto& shape : shapes) {
+			for (const auto& index : shape.mesh.indices) {
+				Vertex vertex{};
+
+				if (index.vertex_index >= 0) {
+					vertex.position = {
+						attrib.vertices[3 * index.vertex_index + 0],
+						attrib.vertices[3 * index.vertex_index + 1],
+						attrib.vertices[3 * index.vertex_index + 2]
+					};
+
+					auto colorIndex = 3 * index.vertex_index + 2;
+					if (colorIndex < attrib.colors.size()) {
+						vertex.color = {
+							attrib.colors[colorIndex - 2],
+							attrib.colors[colorIndex - 1],
+							attrib.colors[colorIndex - 0]
+						};
+					}
+					else {
+						vertex.color = { 1.0f, 1.0f, 1.0f };
+					}
+				}
+
+				if (index.normal_index >= 0) {
+					vertex.normal = {
+						attrib.normals[3 * index.normal_index + 0],
+						attrib.normals[3 * index.normal_index + 1],
+						attrib.normals[3 * index.normal_index + 2]
+					};
+				}
+
+				if (index.texcoord_index >= 0) {
+					vertex.uv = {
+						attrib.texcoords[2 * index.texcoord_index + 0],
+						attrib.texcoords[2 * index.texcoord_index + 1]
+					};
+				}
+
+				if (uniqueVertices.count(vertex) == 0) {
+					uniqueVertices[vertex] = static_cast<uint32_t>(vertices.size());
+					vertices.push_back(vertex);
+				}
+				
+				indices.push_back(uniqueVertices[vertex]);
+			}
+		}
+	}
+
+} // namespace ve
