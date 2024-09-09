@@ -163,6 +163,7 @@
     <ClCompile Include="lib\first_app.cpp" />
     <ClCompile Include="lib\keyboard_movement_controller.cpp" />
     <ClCompile Include="lib\simple_render_system.cpp" />
+    <ClCompile Include="lib\ve_buffer.cpp" />
     <ClCompile Include="lib\ve_camera.cpp" />
     <ClCompile Include="lib\ve_device.cpp" />
     <ClCompile Include="lib\ve_game_object.cpp" />
@@ -176,8 +177,10 @@
     <ClInclude Include="include\ve\first_app.hpp" />
     <ClInclude Include="include\ve\keyboard_movement_controller.hpp" />
     <ClInclude Include="include\ve\simple_render_system.hpp" />
+    <ClInclude Include="include\ve\ve_buffer.hpp" />
     <ClInclude Include="include\ve\ve_camera.hpp" />
     <ClInclude Include="include\ve\ve_device.hpp" />
+    <ClInclude Include="include\ve\ve_frame_info.hpp" />
     <ClInclude Include="include\ve\ve_game_object.hpp" />
     <ClInclude Include="include\ve\ve_model.hpp" />
     <ClInclude Include="include\ve\ve_pipeline.hpp" />

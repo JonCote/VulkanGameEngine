@@ -51,6 +51,9 @@
     <ClCompile Include="lib\keyboard_movement_controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="lib\ve_buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ve\ve_window.hpp">
@@ -87,6 +90,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ve\ve_utils.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ve\ve_buffer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ve\ve_frame_info.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
