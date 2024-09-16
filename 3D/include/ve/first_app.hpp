@@ -4,6 +4,7 @@
 #include "ve_device.hpp"
 #include "ve_game_object.hpp"
 #include "ve_renderer.hpp"
+#include "ve_descriptors.hpp"
 
 //std
 #include <memory>
@@ -32,6 +33,7 @@ namespace ve {
 		VeDevice veDevice{ veWindow };
 		VeRenderer veRenderer{ veWindow, veDevice };
 
+		std::unique_ptr<VeDescriptorPool> globalPool{};
 		std::vector<VeGameObject> gameObjects;
 	};
 } // namespace ve

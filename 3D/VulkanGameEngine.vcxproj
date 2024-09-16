@@ -165,6 +165,7 @@
     <ClCompile Include="lib\simple_render_system.cpp" />
     <ClCompile Include="lib\ve_buffer.cpp" />
     <ClCompile Include="lib\ve_camera.cpp" />
+    <ClCompile Include="lib\ve_descriptors.cpp" />
     <ClCompile Include="lib\ve_device.cpp" />
     <ClCompile Include="lib\ve_game_object.cpp" />
     <ClCompile Include="lib\ve_model.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="include\ve\simple_render_system.hpp" />
     <ClInclude Include="include\ve\ve_buffer.hpp" />
     <ClInclude Include="include\ve\ve_camera.hpp" />
+    <ClInclude Include="include\ve\ve_descriptors.hpp" />
     <ClInclude Include="include\ve\ve_device.hpp" />
     <ClInclude Include="include\ve\ve_frame_info.hpp" />
     <ClInclude Include="include\ve\ve_game_object.hpp" />
