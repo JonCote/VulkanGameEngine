@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ve_game_object.hpp"
-#include "ve_window.hpp"
+#include "ve/ve_game_object.hpp"
+#include "ve/ve_window.hpp"
 
 namespace ve {
 	class KeyboardMovementController {

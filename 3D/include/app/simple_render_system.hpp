@@ -1,10 +1,10 @@
 #pragma once
 
-#include "ve_camera.hpp"
-#include "ve_pipeline.hpp"
-#include "ve_device.hpp"
-#include "ve_game_object.hpp"
-#include "ve_frame_info.hpp"
+#include "ve/ve_camera.hpp"
+#include "ve/ve_pipeline.hpp"
+#include "ve/ve_device.hpp"
+#include "ve/ve_game_object.hpp"
+#include "ve/ve_frame_info.hpp"
 
 //std
 #include <memory>

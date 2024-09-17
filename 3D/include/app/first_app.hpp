@@ -1,10 +1,10 @@
 #pragma once
 
-#include "ve_window.hpp"
-#include "ve_device.hpp"
-#include "ve_game_object.hpp"
-#include "ve_renderer.hpp"
-#include "ve_descriptors.hpp"
+#include "ve/ve_window.hpp"
+#include "ve/ve_device.hpp"
+#include "ve/ve_game_object.hpp"
+#include "ve/ve_renderer.hpp"
+#include "ve/ve_descriptors.hpp"
 
 //std
 #include <memory>
