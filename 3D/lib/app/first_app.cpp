@@ -1,6 +1,7 @@
 #include "app/first_app.hpp"
 #include "app/keyboard_movement_controller.hpp"
-#include "app/simple_render_system.hpp"
+#include "app/systems/simple_render_system.hpp"
+#include "app/systems/point_light_system.hpp"
 
 #include "ve/ve_camera.hpp"
 #include "ve/ve_buffer.hpp"
@@ -20,13 +21,6 @@
 #include <chrono>
 
 namespace ve {
-	
-	struct GlobalUbo {
-		glm::mat4 projectionView{ 1.f };
-		glm::vec4 ambientLightColor{ 1.0f, 1.0f, 1.0f, 0.02f }; 
-		glm::vec3 lightPosition{ -1.f };
-		alignas(16) glm::vec4 lightColor{ 1.f };
-	};
 
 	FirstApp::FirstApp() {
 		globalPool = VeDescriptorPool::Builder(veDevice)
@@ -54,7 +48,7 @@ namespace ve {
 		}
 
 		auto globalSetLayout = VeDescriptorSetLayout::Builder(veDevice)
-			.addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT)
+			.addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_ALL_GRAPHICS)
 			.build();
 
 		std::vector<VkDescriptorSet> globalDescriptorSets(VeSwapChain::MAX_FRAMES_IN_FLIGHT);
@@ -65,7 +59,14 @@ namespace ve {
 				.build(globalDescriptorSets[i]);
 		}
 
-		SimpleRenderSystem simpleRenderSystem{ veDevice, veRenderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout() };
+		SimpleRenderSystem simpleRenderSystem{ 
+			veDevice, 
+			veRenderer.getSwapChainRenderPass(), 
+			globalSetLayout->getDescriptorSetLayout() };
+		PointLightSystem pointLightSystem{ 
+			veDevice, 
+			veRenderer.getSwapChainRenderPass(), 
+			globalSetLayout->getDescriptorSetLayout() };
 		VeCamera camera{};
 
 		auto viewerObject = VeGameObject::createGameObject();
@@ -95,19 +96,23 @@ namespace ve {
 					frameTime,
 					commandBuffer,
 					camera,
-					globalDescriptorSets[frameIndex]
+					globalDescriptorSets[frameIndex],
+					gameObjects
 				};
 
 				// update
 				GlobalUbo ubo{};
-				ubo.projectionView = camera.getProjection() * camera.getView();
+				ubo.projection = camera.getProjection();
+				ubo.view = camera.getView();
+				pointLightSystem.update(frameInfo, ubo);
 				uboBuffers[frameIndex]->writeToBuffer(&ubo);
 				uboBuffers[frameIndex]->flush();
 
 
 				// render
 				veRenderer.beginSwapChainRenderPass(commandBuffer);
-				simpleRenderSystem.renderGameObjects(frameInfo, gameObjects);
+				simpleRenderSystem.renderGameObjects(frameInfo);
+				pointLightSystem.render(frameInfo);
 				veRenderer.endSwapChainRenderPass(commandBuffer);
 				veRenderer.endFrame();
 			}
@@ -124,21 +129,39 @@ namespace ve {
 		flatVase.model = veModel;
 		flatVase.transform.translation = { -.5f, .5f, 1.5f };
 		flatVase.transform.scale = {3.f, 1.5f, 3.f};
-		gameObjects.push_back(std::move(flatVase));
+		gameObjects.emplace(flatVase.getId(), std::move(flatVase));
 
 		veModel = VeModel::createModelFromFile(veDevice, "models/smooth_vase.obj");
 		auto smoothVase = VeGameObject::createGameObject();
 		smoothVase.model = veModel;
 		smoothVase.transform.translation = { .5f, .5f, 0.f };
 		smoothVase.transform.scale = { 3.f, 1.5f, 3.f };
-		gameObjects.push_back(std::move(smoothVase));
+		gameObjects.emplace(smoothVase.getId(), std::move(smoothVase));
 
 		veModel = VeModel::createModelFromFile(veDevice, "models/quad.obj");
 		auto floor = VeGameObject::createGameObject();
 		floor.model = veModel;
 		floor.transform.translation = { .0f, .5f, 0.f };
 		floor.transform.scale = { 3.f, 1.f, 3.f };
-		gameObjects.push_back(std::move(floor));
+		gameObjects.emplace(floor.getId(), std::move(floor));
+
+
+		std::vector<glm::vec3> lightColors{
+			{1.f, .1f, .1f},
+			{.1f, .1f, 1.f},
+			{.1f, 1.f, .1f},
+			{1.f, 1.f, .1f},
+			{.1f, 1.f, 1.f},
+			{1.f, 1.f, 1.f}  //
+		};
+
+		for (int i = 0; i < lightColors.size(); i++) {
+			auto pointLight = VeGameObject::createPointLight(0.2f);
+			pointLight.color = lightColors[i];
+			auto rotateLight = glm::rotate(glm::mat4(1.f), glm::radians(360.f / lightColors.size() * i), { 0.f, -1.f, 0.f });
+			pointLight.transform.translation = glm::vec3(rotateLight * glm::vec4(-1.f, -1.f, -1.f, 1.f));
+			gameObjects.emplace(pointLight.getId(), std::move(pointLight));
+		}
 	}
 
 } // namespace ve

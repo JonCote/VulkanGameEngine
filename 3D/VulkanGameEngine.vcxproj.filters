@@ -42,7 +42,7 @@
     <ClCompile Include="lib\ve\ve_renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lib\app\simple_render_system.cpp">
+    <ClCompile Include="lib\app\systems\simple_render_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="lib\ve\ve_camera.cpp">
@@ -55,6 +55,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="lib\ve\ve_descriptors.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\app\systems\point_light_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,7 +86,7 @@
     <ClInclude Include="include\ve\ve_renderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\app\simple_render_system.hpp">
+    <ClInclude Include="include\app\systems\simple_render_system.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ve\ve_camera.hpp">
@@ -104,6 +107,9 @@
     <ClInclude Include="include\ve\ve_descriptors.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\app\systems\point_light_system.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\simple_shader.vert" />
@@ -111,5 +117,7 @@
     <None Include="tools\compile.bat">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="shaders\point_light.vert" />
+    <None Include="shaders\point_light.frag" />
   </ItemGroup>
 </Project>

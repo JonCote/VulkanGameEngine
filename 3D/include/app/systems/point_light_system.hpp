@@ -11,21 +11,22 @@
 #include <vector>
 
 namespace ve {
-	class SimpleRenderSystem {
+	class PointLightSystem {
 	public:
 
-		SimpleRenderSystem(VeDevice& device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout);
-		~SimpleRenderSystem();
+		PointLightSystem(VeDevice& device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout);
+		~PointLightSystem();
 
-		SimpleRenderSystem(const SimpleRenderSystem&) = delete;
-		SimpleRenderSystem& operator=(const SimpleRenderSystem&) = delete;
+		PointLightSystem(const PointLightSystem&) = delete;
+		PointLightSystem& operator=(const PointLightSystem&) = delete;
 
-		void renderGameObjects(FrameInfo& frameInfo, std::vector<VeGameObject>& gameObjects);
+		void update(FrameInfo& frameInfo, GlobalUbo& ubo);
+		void render(FrameInfo& frameInfo);
 
 	private:
 		void createPipelineLayout(VkDescriptorSetLayout globalSetLayout);
 		void createPipeline(VkRenderPass renderPass);
-		
+
 
 		VeDevice& veDevice;
 
