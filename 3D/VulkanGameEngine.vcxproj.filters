@@ -15,13 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="app\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="lib\ve\ve_window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\app\first_app.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="lib\ve\ve_pipeline.cpp">
@@ -42,13 +36,7 @@
     <ClCompile Include="lib\ve\ve_renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lib\app\systems\simple_render_system.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="lib\ve\ve_camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\app\keyboard_movement_controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="lib\ve\ve_buffer.cpp">
@@ -57,15 +45,9 @@
     <ClCompile Include="lib\ve\ve_descriptors.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lib\app\systems\point_light_system.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ve\ve_window.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\app\first_app.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ve\ve_pipeline.hpp">
@@ -86,13 +68,7 @@
     <ClInclude Include="include\ve\ve_renderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\app\systems\simple_render_system.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\ve\ve_camera.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\app\keyboard_movement_controller.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ve\ve_utils.hpp">
@@ -107,17 +83,5 @@
     <ClInclude Include="include\ve\ve_descriptors.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\app\systems\point_light_system.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="shaders\simple_shader.vert" />
-    <None Include="shaders\simple_shader.frag" />
-    <None Include="tools\compile.bat">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="shaders\point_light.vert" />
-    <None Include="shaders\point_light.frag" />
   </ItemGroup>
 </Project>
